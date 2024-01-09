@@ -1,10 +1,27 @@
 class Solution {
+    int answer = -1;
     public int search(int[] nums, int target) {
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] == target) {
-                return i;
-            }
+        binarysearch(nums, target, 0, nums.length - 1);
+        
+        return answer;
+    }
+                 
+    public void binarysearch(int[] nums, int target, int l, int r) {
+        if (l > r) {
+            answer = -1;
+            return;
         }
-        return -1;
+        
+        int mid = (l + r) / 2;
+        
+        if (nums[mid] == target) {
+            answer = mid;
+        }
+        if (nums[mid] < target) {
+            binarysearch(nums, target, mid+1, r);
+        }
+        if (nums[mid] > target) {
+            binarysearch(nums, target, l, mid-1);
+        }
     }
 }
