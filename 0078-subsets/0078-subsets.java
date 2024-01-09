@@ -2,12 +2,12 @@ class Solution {
     List<List<Integer>> answer = new ArrayList<>();
     
     public List<List<Integer>> subsets(int[] nums) {
-        backtracking(0, new boolean[nums.length], new ArrayList<>(), nums);
+        backtracking(0, new ArrayList<>(), nums);
         
         return answer;
     }
     
-    public void backtracking(int start, boolean[] visited, List<Integer> current, int[] nums) {
+    public void backtracking(int start, List<Integer> current, int[] nums) {
         answer.add(new ArrayList<>(current));
         
         if (current.size() == nums.length) {
@@ -15,13 +15,9 @@ class Solution {
         }
         
         for (int i = start; i < nums.length; i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                current.add(nums[i]);
-                backtracking(i + 1, visited, current, nums);
-                visited[i] =false;
-                current.remove(current.size() - 1);
-            }
+            current.add(nums[i]);
+            backtracking(i + 1, current, nums);
+            current.remove(current.size() - 1);   
         }
     }
 }
