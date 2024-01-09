@@ -16,6 +16,7 @@ class Solution {
         
         if (nums[mid] == target) {
             answer = mid;
+            return;
         }
         if (nums[mid] < target) {
             binarysearch(nums, target, mid+1, r);
