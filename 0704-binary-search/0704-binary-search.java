@@ -1,5 +1,5 @@
 class Solution {
-    int answer = -1;
+    int answer;
     public int search(int[] nums, int target) {
         binarysearch(nums, target, 0, nums.length - 1);
         
