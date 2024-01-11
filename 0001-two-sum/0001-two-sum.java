@@ -1,38 +1,27 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        int[] answer = new int[2];
-        int[] copy = Arrays.copyOf(nums, nums.length);
-        boolean leftDone = false;
-        boolean rightDone = false;
-        
-        Arrays.sort(nums);
-        
-        int l = 0; 
-        int r = nums.length - 1;
-        
-        while (l <= r) {
-            if (nums[l] + nums[r] < target) {
-                l++;
-            } else if (nums[l] + nums[r] > target) {
-                r--;
-            } else if (nums[l] + nums[r] == target) {
-                break;
-            }
-        }
-        
+        int[][] arr = new int[nums.length][2];
         for (int i = 0; i < nums.length; i++) {
-            if (!leftDone && copy[i] == nums[l]) {
-                answer[0] = i;
-                leftDone = true;
-            } else if (!rightDone && copy[i] == nums[r]) {
-                answer[1] = i;
-                rightDone = true;
-            }
-            
-            if (leftDone && rightDone) {
-                break;
+            arr[i][0] = nums[i];
+            arr[i][1] = i;
+        }
+        
+        Arrays.sort(arr, (o1, o2) -> {
+            return o1[0] - o2[0];
+        });
+        
+        int l = 0, r = nums.length - 1;
+        
+        while(l < r) {
+            if (arr[l][0] + arr[r][0] > target) {
+                r--;
+            } else if(arr[l][0] + arr[r][0] < target) {
+                l++;
+            } else {
+                return new int[]{arr[l][1], arr[r][1]};
             }
         }
-        return answer;
+        
+        return new int[]{-1, -1};
     }
 }
