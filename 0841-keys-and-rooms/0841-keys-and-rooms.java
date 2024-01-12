@@ -2,7 +2,7 @@ class Solution {
     public boolean canVisitAllRooms(List<List<Integer>> rooms) {
         boolean[] visited = new boolean[rooms.size()];
                 
-        dfs(0, rooms, visited);
+        bfs(0, rooms, visited);
         
         for (int i = 0; i < visited.length; i++) {
             if (!visited[i]) {
@@ -12,12 +12,19 @@ class Solution {
         return true;
     }
     
-    public void dfs(int v, List<List<Integer>> rooms, boolean[] visited) {
-        visited[v] = true;
+    public void bfs(int start, List<List<Integer>> rooms, boolean[] visited) {
+        Queue<Integer> q = new ArrayDeque<>();
+        q.offer(start);
+        visited[start] = true;
         
-        for (Integer next : rooms.get(v)) {
-            if (!visited[next]) {
-                dfs(next, rooms, visited);
+        while (!q.isEmpty()) {
+            int now = q.poll();
+            
+            for (int next : rooms.get(now)) {
+                if (!visited[next]) {
+                    q.offer(next);
+                    visited[next] = true;
+                }
             }
         }
     }
