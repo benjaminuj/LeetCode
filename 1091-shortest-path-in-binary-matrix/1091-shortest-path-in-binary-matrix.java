@@ -5,7 +5,7 @@ class Solution {
     public int shortestPathBinaryMatrix(int[][] grid) {
         visited = new boolean[grid.length][grid[0].length];
         
-        if (grid[0][0] == 1) {
+        if (grid[0][0] == 1 || grid[grid.length-1][grid[0].length-1] == 1) {
             return -1;
         }
         
