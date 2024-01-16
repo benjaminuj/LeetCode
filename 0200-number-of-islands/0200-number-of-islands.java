@@ -1,5 +1,5 @@
 class Solution {
-    int[][] dr = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // 개선
+    int[][] dr = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; 
     boolean[][] visited;
     
     public int numIslands(char[][] grid) {
@@ -9,7 +9,7 @@ class Solution {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
                 if (!visited[i][j] && grid[i][j] == '1') {
-                    dfs(i, j, grid);
+                    bfs(i, j, grid);
                     answer++;
                 }
             }
@@ -18,18 +18,35 @@ class Solution {
     }
     
     public boolean isValid(int r, int c, int rLen, int cLen, char[][] grid) {
-        return ((r >= 0 && r < rLen && c >= 0 && c < cLen) && !visited[r][c] && grid[r][c] == '1'); // 개선
+        return ((r >= 0 && r < rLen && c >= 0 && c < cLen) && !visited[r][c] && grid[r][c] == '1'); 
     }
     
-    public void dfs(int r, int c, char[][] grid) {
+    public void bfs(int r, int c, char[][] grid) {
+        Queue<Info> q = new ArrayDeque<>();
+        q.offer(new Info(r, c));
         visited[r][c] = true;
-        for (int[] d : dr) { // 개선
-            int nextR = r + d[0];
-            int nextC = c + d[1];
+        
+        while(!q.isEmpty()) {
+            Info now = q.poll();
             
-            if (isValid(nextR, nextC, visited.length, visited[0].length, grid)) {
-                dfs(nextR, nextC, grid);
+            for (int[] d : dr) {
+                int nextR = now.r + d[0];
+                int nextC = now.c + d[1];
+                
+                if (isValid(nextR, nextC, visited.length, visited[0].length, grid)) {
+                    q.offer(new Info(nextR, nextC));
+                    visited[nextR][nextC] = true;
+                }
             }
         }
+    }
+}
+
+class Info {
+    int r;
+    int c;
+    public Info(int r, int c) {
+        this.r = r;
+        this.c = c;
     }
 }
