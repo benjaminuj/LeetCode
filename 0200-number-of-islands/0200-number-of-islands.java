@@ -1,6 +1,5 @@
 class Solution {
-    int[] dr = new int[]{0, 1, 0, -1};
-    int[] dc = new int[]{1, 0, -1, 0};
+    int[][] dr = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // 개선
     boolean[][] visited;
     
     public int numIslands(char[][] grid) {
@@ -19,17 +18,14 @@ class Solution {
     }
     
     public boolean isValid(int r, int c, int rLen, int cLen, char[][] grid) {
-        if ((r >= 0 && r < rLen && c >= 0 && c < cLen) && !visited[r][c] && grid[r][c] == '1') {
-            return true;
-        }
-        return false;
+        return ((r >= 0 && r < rLen && c >= 0 && c < cLen) && !visited[r][c] && grid[r][c] == '1'); // 개선
     }
     
     public void dfs(int r, int c, char[][] grid) {
         visited[r][c] = true;
-        for (int i = 0; i < 4; i++) {
-            int nextR = r + dr[i];
-            int nextC = c + dc[i];
+        for (int[] d : dr) { // 개선
+            int nextR = r + d[0];
+            int nextC = c + d[1];
             
             if (isValid(nextR, nextC, visited.length, visited[0].length, grid)) {
                 dfs(nextR, nextC, grid);
