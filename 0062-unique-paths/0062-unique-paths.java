@@ -5,10 +5,7 @@ class Solution {
         dis = new int[m][n];
         dis[0][0] = 1;
         
-        back(m-1,n-1);
-        
-        return dis[m-1][n-1];
-        
+        return back(m-1,n-1);
     }
     
     public int back(int r, int c) {
