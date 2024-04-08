@@ -1,25 +1,21 @@
 class Solution {
-    int[] result;
+    int[] dp;
     
     public int climbStairs(int n) {
-        result = new int[n+1];
-        Arrays.fill(result, -1);
-        result[0] = 0;
-        
-        return back(n);
+        dp = new int[n+1];
+        back(n);
+        return dp[n];
     }
-    
+
     public int back(int n) {
-        if (n == 1) {
-            result[n] = 1;
-        } else if (n == 2) {
-            result[n] = 2;
+        if (n == 1 || n == 2) {
+            dp[n] = n;
+            return dp[n];
         }
         
-        if (result[n] == -1) {
-            result[n] = back(n-1) + back(n-2);
-        } 
-        return result[n];
+        if (dp[n] != 0) return dp[n];
 
+        dp[n] = back(n-1) + back(n-2);
+        return dp[n];
     }
 }
