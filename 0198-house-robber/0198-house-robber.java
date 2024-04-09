@@ -1,37 +1,32 @@
 class Solution {
-    private int[] cnt = {2,3};
-    
+    final int LIMIT = Integer.MIN_VALUE;
     public int rob(int[] nums) {
-        int[] result = new int[nums.length];
-        Arrays.fill(result, Integer.MIN_VALUE);
-        if(nums.length == 1) return nums[0];
-        if (nums.length == 2) return nums[0] > nums[1] ? nums[0] : nums[1];
+        if (nums.length == 1) return nums[0];
+        if (nums.length == 2) return Math.max(nums[0], nums[1]);
         
-        int n1 = dp(nums, result, nums.length-1);
-        int n2 = dp(nums, result, nums.length-2);
+        int[] memo = new int[nums.length];
+        Arrays.fill(memo, LIMIT);
         
-        return n1 < n2 ? n2 : n1;
+        return Math.max(dp(nums, nums.length-1, memo), dp(nums, nums.length-2, memo));
     }
     
-    int dp(int[] nums, int[] result, int i) {
-        int value = Integer.MIN_VALUE;
-        if (i == 0) return nums[0];
-        if (i == 1) return nums[1];
+    public int dp(int[] nums, int n, int[] memo) {
+        if (n == 0) return nums[0];
+        if (n == 1) return nums[1];
         
-        for (int n : cnt) {
-            if (i - n < 0) break;
-            
-           if (result[i-n] == Integer.MIN_VALUE) {
-                value = dp(nums, result, i-n) + nums[i];
-           } else {
-               value = result[i-n] + nums[i];
-           }
-            
-            
-            
-            result[i] = Math.max(result[i], value);
-            
+        int result = LIMIT;
+        
+        for (int i = 2; i <= 3; i++) {
+            if (n - i >= 0) {
+                if (memo[n-i] == LIMIT) {
+                    memo[n-i] = dp(nums, n-i, memo);
+        
+                }
+                
+                result = Math.max(result, memo[n-i]);
+            }
         }
-        return result[i];
+        
+        return result == LIMIT ? memo[n] : result + nums[n];
     }
 }
