@@ -1,27 +1,29 @@
 class Solution {
+    final int LIMIT = 10001;
+    
     public int coinChange(int[] coins, int amount) {
-        int[] answer = new int[amount+1];
-        Arrays.fill(answer, 100000);
-        for(int i =0; i < coins.length; i++) {
-            if (coins[i] > amount) continue;
-            answer[coins[i]] = 1;
-        }
-        answer[0] = 0;
+        int[] memo = new int[amount+1];
+        
+        Arrays.fill(memo, LIMIT);
+        return dp(memo, coins, amount);
+    }
+    
+    public int dp(int[] memo, int[] coins, int amount) {
+        if(amount == 0) return 0;
+        
+        int result = LIMIT;
         
         for (int coin : coins) {
-            for (int i = 0; i < amount; i++) {
-                if (answer[i] == 100000) continue;
-                if (i+coin > amount) break;
-                
-                int temp = answer[i] + 1;
-                if (answer[i+coin] == 100000) answer[i+coin] = temp;
-                else {
-                    answer[i+coin] = Math.min(temp, answer[i+coin]);
+            if (amount - coin >= 0) {
+                if (memo[amount-coin] == LIMIT) {
+                    memo[amount-coin] = dp(memo, coins, amount-coin);
                 }
-            }
+                
+                if (memo[amount-coin] != -1) {
+                    result = Math.min(result, memo[amount-coin]);
+                }
+            } 
         }
-        
-        if (answer[amount] == 100000) return -1;
-        return answer[amount];
+        return result == LIMIT ? -1 : result + 1;
     }
 }
