@@ -16,7 +16,6 @@ class Solution {
                 
                 if (str.compareTo(cal) < 0) cal = str;
                 s1 = str;
-                System.out.println(str);
             }
             result = cal;
         }
